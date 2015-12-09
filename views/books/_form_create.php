@@ -3,15 +3,11 @@
 use yii\helpers\Html;
 use yii\helpers\BaseHtml;
 use yii\helpers\ArrayHelper;
-
 use yii\widgets\ActiveForm;
 use yii\widgets\ActiveField;
 #use yii\widgets\FileInput;
-
 use yii\file\FileInput;
-
 use yii\jui\DatePicker;
-
 use frontend\models\Authors
 
 /* @var $this yii\web\View */
@@ -31,9 +27,8 @@ use frontend\models\Authors
         ArrayHelper::map(Authors::find()->all(),'id','firstname'),['prompt'=>'[ Выберите имя автора ]']
     );?>
 
-    <?= $form->field($model, 'preview')->fileInput() ?>
+    <?= $form->field($model, 'file')->fileInput() ?>
 
-    <?= $form->field($model, 'date_create')->widget( DatePicker::className(),['dateFormat' => 'yyyy-MM-dd'] ) ?>
     <?= $form->field($model, 'date_update')->widget( DatePicker::className(),['dateFormat' => 'yyyy-MM-dd'] ) ?>
     
     <?= $form->field($model, 'date')->widget( DatePicker::className(),['dateFormat' => 'yyyy-MM-dd'] ) ?>
@@ -45,6 +40,3 @@ use frontend\models\Authors
     <?php ActiveForm::end(); ?>
 
 </div>
-
-
-

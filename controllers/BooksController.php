@@ -62,15 +62,23 @@ class BooksController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Books;
-        $path = Yii::$app->params['uploadPath'] = Yii::$app->basePath . '/web/uploads/';
+        $model = new Books();
         
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->preview = UploadedFile::getInstance($model,'preview');
-            if ($model->preview && $model->validate()) {
-                $model->preview->saveAs( $path . $model->preview->baseName . '.' . $model->preview->extension);
+        $model->date_create = date("Y-m-d");
+        
+        if ($model->load(Yii::$app->request->post())) {
+            
+            $model->file = UploadedFile::getInstance($model, 'file');
+            
+            if ($model->file && $model->validate()) {
+                $model->file->saveAs( Yii::$app->basePath . '/web/uploads/' . $model->file->baseName . '.' . $model->file->extension );
             }
+            
+            $model->preview = '/web/uploads/' . $model->file->baseName . '.' . $model->file->extension;
+            $model->save();
+            
             return $this->redirect(['view', 'id' => $model->id]);
+            
         } else {
             return $this->render('create', [
                 'model' => $model,

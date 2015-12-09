@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_create:date',
             'date_update:date',
             'preview',
-            'date',
+            'date:date',
             'author_id',
             ['class' => 'yii\grid\ActionColumn'],
         ],

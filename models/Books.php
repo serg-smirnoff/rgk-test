@@ -18,6 +18,8 @@ use yii\web\UploadedFile;
  */
 class Books extends \yii\db\ActiveRecord
 {
+    public $file;
+    
     /**
      * @inheritdoc
      */
@@ -32,12 +34,12 @@ class Books extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'name', 'date_create', 'date_update', 'date', 'author_id'], 'required'],
+            [['id', 'name', 'date', 'author_id'], 'required'],
             [['id', 'author_id'], 'integer'],
             [['date', 'date_create', 'date_update'], 'safe'],
-            [['name'], 'string', 'max' => 255],
-            [['date_create', 'date_update', 'date'], 'default', 'value' => null],        
-            [['preview'], 'file', 'skipOnEmpty' => false, 'extensions' => 'gif, jpg, jpeg, png']
+            [['file'], 'file'],
+            [['name', 'preview'], 'string', 'max' => 255],
+            [['date_create', 'date_update', 'date'], 'default', 'value' => null]            
         ];
     }
 
@@ -53,7 +55,7 @@ class Books extends \yii\db\ActiveRecord
             'author_id' => 'Автор',
             'date_create' => 'Дата создания записи',
             'date_update' => 'Дата обновления записи',
-            'date' => 'Дата выхода книги',
+            'date' => 'Дата выхода книги'
         ];
     }
 }

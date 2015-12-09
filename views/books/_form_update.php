@@ -28,7 +28,7 @@ use frontend\models\Authors
         ArrayHelper::map(Authors::find()->all(),'id','firstname'),['prompt'=>'[ Выберите имя автора ]']
     );?>
 
-    <?= $form->field($model, 'preview')->fileInput() ?>
+    <?= $form->field($model, 'file')->fileInput() ?>
 
     <?= $form->field($model, 'date_create')->widget( DatePicker::className(),['dateFormat' => 'yyyy-MM-dd'] ) ?>
     <?= $form->field($model, 'date_update')->widget( DatePicker::className(),['dateFormat' => 'yyyy-MM-dd'] ) ?>
