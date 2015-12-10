@@ -28,9 +28,6 @@ use frontend\models\Authors
     );?>
 
     <?= $form->field($model, 'file')->fileInput() ?>
-
-    <?= $form->field($model, 'date_update')->widget( DatePicker::className(),['dateFormat' => 'yyyy-MM-dd'] ) ?>
-    
     <?= $form->field($model, 'date')->widget( DatePicker::className(),['dateFormat' => 'yyyy-MM-dd'] ) ?>
 
     <div class="form-group">

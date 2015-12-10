@@ -24,11 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
 <!--
-    
         //$image = (new Query)->select('id','preview')->from('books'); die();
         //var_dump($image);die(); 
 -->
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -38,8 +36,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'date_create:date',
             'date_update:date',
-            'preview',
-            //'preview' => function ($image) {return Html::img($image,['width' => '60px']);},
+            'preview' => [
+                'attribute' => 'preview',
+                'label'=>'Превью',
+                'format' => 'raw',
+                     'value'=> function($model){
+                         return '<a href="http://test.onlysites.ru/yii-advanced/frontend'.$model->preview.'" rel="fancybox"><img src="http://test.onlysites.ru/yii-advanced/frontend'.$model->preview.'" width="150" /></a>';
+                     }  
+            ],
             'date:date',
             'author_id',
             ['class' => 'yii\grid\ActionColumn'],

@@ -32,7 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'date_create',
             'date_update',
-            'preview',
+            
+            [
+                'attribute'=>'preview',
+                'value'=> '<a href="http://test.onlysites.ru/yii-advanced/frontend'.$model->preview.'" rel="fancybox"><img src="http://test.onlysites.ru/yii-advanced/frontend'.$model->preview.'" width="150" /></a>'
+                
+            ],
             'date',
             'author_id',
         ],

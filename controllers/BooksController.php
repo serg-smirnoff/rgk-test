@@ -95,8 +95,20 @@ class BooksController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        
+        $model->date_update = date("Y-m-d");
+        
+        if ($model->load(Yii::$app->request->post())) {
+           
+            $model->file = UploadedFile::getInstance($model, 'file');
+            
+            if ($model->file && $model->validate()) {
+                $model->file->saveAs( Yii::$app->basePath . '/web/uploads/' . $model->file->baseName . '.' . $model->file->extension );
+            }
+            
+            $model->preview = '/web/uploads/' . $model->file->baseName . '.' . $model->file->extension;
+            $model->save();
+            
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
