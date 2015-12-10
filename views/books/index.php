@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\db\Query;
+//use yii\db\Command;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Books */
@@ -21,6 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Books', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+<!--
+    
+        //$image = (new Query)->select('id','preview')->from('books'); die();
+        //var_dump($image);die(); 
+-->
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -31,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date_create:date',
             'date_update:date',
             'preview',
+            //'preview' => function ($image) {return Html::img($image,['width' => '60px']);},
             'date:date',
             'author_id',
             ['class' => 'yii\grid\ActionColumn'],
