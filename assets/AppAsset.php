@@ -4,7 +4,7 @@
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-
+    
 namespace frontend\assets;
 
 use yii\web\AssetBundle;
@@ -19,8 +19,11 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
+        'css/jquery.fancybox.css'
     ];
     public $js = [
+        'js/jquery.fancybox.js',
+        'js/jquery.fancybox.pack.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

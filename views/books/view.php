@@ -24,7 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -32,15 +31,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'date_create',
             'date_update',
-            
             [
-                'attribute'=>'preview',
-                'value'=> '<a href="http://test.onlysites.ru/yii-advanced/frontend'.$model->preview.'" rel="fancybox"><img src="http://test.onlysites.ru/yii-advanced/frontend'.$model->preview.'" width="150" /></a>'
+                'attribute' =>  'preview',
+                'value'     =>  'http://test.onlysites.ru/yii-advanced/frontend'.$model->preview,
+                'format'    =>  ['image',['width'=>'100']],
                 
             ],
             'date',
-            'author_id',
+            [
+                'attribute' => 'author_id',
+                'value'     => $author
+            ]
         ],
-    ]) ?>
+    ])?>
 
 </div>

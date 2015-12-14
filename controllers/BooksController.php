@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\models\Authors;
 use frontend\models\Books;
 use frontend\models\BooksSearch;
 use yii\web\Controller;
@@ -35,11 +36,24 @@ class BooksController extends Controller
         $searchModel = new BooksSearch();
         $model = new Books();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        //$author = Authors::find()->where(['id' => $model->id])->one();
+        //echo $author = $author->lastname." ".$author->firstname;die();
+                
+        // id автора
+        //$book = Books::find()->where(['id' => $id])->one();
+        //$author_id = $book->author_id;
+        
+        // ФИО автора по id 
+        //$author = Authors::find()->where(['id' => $author_id])->one();
+        //$author = $author->lastname." ".$author->firstname;
 
         return $this->render('index', [
-            'model'     => $model,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        //    'id'          => $id,
+        //    'author'        => $author,
+            'model'         => $model,
+            'searchModel'   => $searchModel,
+            'dataProvider'  => $dataProvider,
         ]);
     }
 
@@ -50,8 +64,17 @@ class BooksController extends Controller
      */
     public function actionView($id)
     {
+        // id автора
+        $book = Books::find()->where(['id' => $id])->one();
+        $author_id = $book->author_id;
+        
+        // ФИО автора по id 
+        $author = Authors::find()->where(['id' => $author_id])->one();
+        $author = $author->lastname." ".$author->firstname;
+                        
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'author'    => $author,
+            'model'     => $this->findModel($id),
         ]);
     }
 
@@ -65,6 +88,7 @@ class BooksController extends Controller
         $model = new Books();
         
         $model->date_create = date("Y-m-d");
+        $model->date_update = date("Y-m-d");
         
         if ($model->load(Yii::$app->request->post())) {
             
@@ -106,7 +130,7 @@ class BooksController extends Controller
                 $model->file->saveAs( Yii::$app->basePath . '/web/uploads/' . $model->file->baseName . '.' . $model->file->extension );
             }
             
-            $model->preview = '/web/uploads/' . $model->file->baseName . '.' . $model->file->extension;
+            if($model->file->baseName != '') $model->preview = '/web/uploads/' . $model->file->baseName . '.' . $model->file->extension;
             $model->save();
             
             return $this->redirect(['view', 'id' => $model->id]);
