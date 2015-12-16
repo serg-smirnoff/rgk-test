@@ -24,6 +24,18 @@ $this->registerJs($script, yii\web\View::POS_READY);
 
 ?>
 <div class="books-index">
+    <?php if (Yii::$app->user->isGuest) {?>
+
+    <div>Просмотр и редактирование списка позиций доступно только пользователям. Пройдите авторизацию</div>
+    
+    <?php 
+        
+        list($controller) = Yii::$app->createController('site');
+        echo $controller->actionLogin();
+        
+    ?>
+    
+    <?php } else { ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -64,8 +76,8 @@ $this->registerJs($script, yii\web\View::POS_READY);
                                     return $author;
                                 }  
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+              ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
+    <?php }?>
 </div>

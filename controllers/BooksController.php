@@ -5,6 +5,9 @@ use Yii;
 use frontend\models\Authors;
 use frontend\models\Books;
 use frontend\models\BooksSearch;
+
+use frontend\controlers\SiteController;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -37,6 +40,9 @@ class BooksController extends Controller
         $model = new Books();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
+        list($controller) = Yii::$app->createController('site');
+        $controller->actionLogin();
+
         //$author = Authors::find()->where(['id' => $model->id])->one();
         //echo $author = $author->lastname." ".$author->firstname;die();
                 
