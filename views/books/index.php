@@ -6,6 +6,10 @@ use yii\db\Query;
 //use yii\db\Command;
 use frontend\models\Authors;
 
+use yii\widgets\ActiveField;
+use yii\jui\DatePicker;
+use yii\helpers\ArrayHelper;
+        
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Books */
 /* @var $searchModel frontend\models\BooksSearch */
@@ -26,13 +30,11 @@ $this->registerJs($script, yii\web\View::POS_READY);
 <div class="books-index">
     <?php if (Yii::$app->user->isGuest) {?>
 
-    <div>Просмотр и редактирование списка позиций доступно только пользователям. Пройдите авторизацию</div>
+    <div>Просмотр и редактирование списка книг доступно только зарегистрированным пользователям. Пройдите авторизацию или <a href="/site/signup">зарегистрируйтесь</a></div>
     
     <?php 
-        
         list($controller) = Yii::$app->createController('site');
-        echo $controller->actionLogin();
-        
+        echo $controller->actionLogin($partial = true);
     ?>
     
     <?php } else { ?>
@@ -45,8 +47,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
     </p>
 
 <!--
-        //$image = (new Query)->select('id','preview')->from('books'); die();
-        //var_dump($image);die(); 
+        //$image = (new Query)->select('id','preview')->from('books');
 -->
 
     <?= GridView::widget([
@@ -54,29 +55,70 @@ $this->registerJs($script, yii\web\View::POS_READY);
         'filterModel'  => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
-            'name',
-            'date_create:date',
-            'date_update:date',
+            [
+                'attribute' => 'id',
+                'filter'    => false
+            ],
+            [
+                'attribute' => 'name',
+                'filter'    => false
+            ],
+            [
+                'attribute' => 'date_create',
+                'value'     => 'date_create',
+                'format'    => 'raw',
+                'filter'    => DatePicker::widget(
+                                [
+                                    'model'      => $searchModel,
+                                    'attribute'  => 'date_create',
+                                    'dateFormat' => 'yyyy-MM-dd',
+                                ]
+                )
+            ],
+            [
+                'attribute' => 'date_update',
+                'value'     => 'date_update',
+                'format'    => 'raw',
+                'filter'    => DatePicker::widget(
+                                [
+                                    'model'      => $searchModel,
+                                    'attribute'  => 'date_update',
+                                    'dateFormat' => 'yyyy-MM-dd',
+                                ]
+                )
+            ],
             'preview' => [
                 'attribute' => 'preview',
                 'label'     => 'Превью',
                 'format'    => 'raw',
                 'value'     => function($model){
                                 return '<a href="http://test.onlysites.ru/yii-advanced/frontend'.$model->preview.'" class="fancybox"><img src="http://test.onlysites.ru/yii-advanced/frontend'.$model->preview.'" width="150" /></a>';
-                            }  
+                            },
+                'filter'    => false
             ],
-            'date:date',
-            'author_id' => [
+            [
+                'attribute' => 'date',
+                'value'     => 'date',
+                'format'    => 'raw',
+                'filter'    => DatePicker::widget(
+                                [
+                                    'model'      => $searchModel,
+                                    'attribute'  => 'date',
+                                    'dateFormat' => 'yyyy-MM-dd',
+                                ]
+                )
+            ],
+            [
+                'format'    => 'raw',
                 'attribute' => 'author_id',
-                //'format'    => 'text',
                 'value'     => function($model){
                                     $author = Authors::find()->where(['id' => $model->author_id])->one();
                                     $author = $author->lastname." ".$author->firstname;
                                     return $author;
-                                }  
-            ],
-              ['class' => 'yii\grid\ActionColumn'],
+                                },
+                'filter' => Html::activeDropDownList($searchModel, 'author_id', ArrayHelper::map(Authors::find()->asArray()->all(), 'id','firstname'),['class'=>'form-control','prompt' => ' Выберите автора ']),
+            ],                    
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
     <?php }?>

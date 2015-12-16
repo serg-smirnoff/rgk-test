@@ -12,6 +12,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
 
 /**
  * BooksController implements the CRUD actions for Books model.
@@ -21,6 +23,32 @@ class BooksController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update'],
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ]                
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -37,11 +65,9 @@ class BooksController extends Controller
     public function actionIndex()
     {
         $searchModel = new BooksSearch();
+        
         $model = new Books();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
-        list($controller) = Yii::$app->createController('site');
-        $controller->actionLogin();
 
         //$author = Authors::find()->where(['id' => $model->id])->one();
         //echo $author = $author->lastname." ".$author->firstname;die();

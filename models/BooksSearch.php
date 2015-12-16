@@ -64,7 +64,10 @@ class BooksSearch extends Books
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'preview', $this->preview]);
+              ->andFilterWhere(['like', 'preview', $this->preview])
+              ->andFilterWhere(['DATE(date)' => $this->date])
+              ->andFilterWhere(['DATE(date_create)' => $this->date_create])                
+              ->andFilterWhere(['DATE(date_update)' => $this->date_update]);
 
         return $dataProvider;
     }

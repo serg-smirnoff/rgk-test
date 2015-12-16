@@ -29,6 +29,11 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
+                        'actions' => ['books'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                    [
                         'actions' => ['signup'],
                         'allow' => true,
                         'roles' => ['?'],
@@ -80,19 +85,31 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionLogin()
+    public function actionLogin($partial = false) 
     {
+        
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
+            //return $this->goBack();            
+            //return $this->redirect(Yii::app()->user->returnUrl);
         }
-
+        
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(['/books']);
+            //return $this->redirect(Yii::$app->request->referrer);
+            //return Yii::$app->getUser()->setReturnUrl(Yii::$app->getRequest()->url);
+            //return $this->goBack();
+            
         } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+            if ($partial)
+                return $this->renderPartial('login', [
+                    'model' => $model,
+                ]);
+            else 
+                return $this->render('login', [
+                    'model' => $model,
+                ]);
         }
     }
 
@@ -104,8 +121,9 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
+        return $this->redirect(['/books']);
 
-        return $this->goHome();
+        //return $this->goHome();
     }
 
     /**
