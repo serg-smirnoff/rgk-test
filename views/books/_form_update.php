@@ -24,12 +24,9 @@ use frontend\models\Authors
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'author_id')->textInput() ?>
+    <!-- $form->field($model, 'author_id')->textInput() -->
     
-    <!--
-    $form->field($model, 'author_id')->dropDownList(
-    ArrayHelper::map(Authors::find()->all(),'id','firstname'),['prompt'=>'[ Выберите имя автора ]']
-    -->
+    <?= $form->field($model, 'author_id')->dropDownList(ArrayHelper::map(Authors::find()->all(),'id','firstname'),['prompt'=>'[ Выберите имя автора ]']); ?>
 
     <?= $form->field($model, 'file')->fileInput() ?>
     <?= $form->field($model, 'date')->widget( DatePicker::className(),['dateFormat' => 'yyyy-MM-dd'] ) ?>

@@ -148,9 +148,11 @@ class BooksController extends Controller
      * @param integer $id
      * @return mixed
      */
+         
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        
         
         $model->date_update = date("Y-m-d");
         
